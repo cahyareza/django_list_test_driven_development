@@ -1,3 +1,4 @@
+import sys
 from django.core.urlresolvers import reverse
 from accounts.models import Token
 from django.contrib.auth import authenticate
@@ -28,7 +29,9 @@ def send_login_email(request):
 
 
 def login(request):
-    user = auth.authenticate(uid=request.GET.get('token'))
-    if user:
+    print('login view', file=sys.stderr)
+    uid = request.GET.get('uid')
+    user = auth.authenticate(uid=uid)
+    if user is not None:
         auth.login(request, user)
     return redirect('/')
