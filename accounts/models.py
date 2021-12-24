@@ -1,21 +1,21 @@
+import uuid
+from django.contrib import auth
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
-class User(AbstractUser):
+
+auth.signals.user_logged_in.disconnect(auth.models.update_last_login)
+
+
+class User(models.Model):
     email = models.EmailField(primary_key=True)
-    username = models.CharField(blank=True, null=True, max_length=50)
-    password = models.CharField(blank=True, null=True, max_length=50)
 
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
     USERNAME_FIELD = 'email'
     is_anonymous = False
     is_authenticated = True
 
-    def __str__(self):
-        return self.email
+
 
 class Token(models.Model):
     email = models.EmailField()
-    uid = models.CharField(max_length=40)
-
+    uid = models.CharField(default=uuid.uuid4, max_length=40)
