@@ -30,7 +30,6 @@ class SendLoginEmailViewTest(TestCase):
         }, follow=True)
 
         message = list(response.context['messages'])[0]
-        print(message)
         self.assertEqual(
             message.message,
             "Check your email, we've sent you a link you can use to log in."
