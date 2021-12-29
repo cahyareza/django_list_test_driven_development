@@ -81,6 +81,7 @@ class NewListViewIntegratedTest(TestCase):
         self.client.post('/lists/new', data={'text': 'new item'})
 
         mock_list.save.assert_called_once_with()
+        self.assertEqual(list_.owner, user)
 
 @patch('lists.views.NewListForm')
 class NewListViewUnitTest(unittest.TestCase):
@@ -109,7 +110,7 @@ class NewListViewUnitTest(unittest.TestCase):
 
     @patch('lists.views.redirect')
     def test_redirects_to_form_returned_object_if_form_valid(
-                self, mock_redirect, mockNewListForm
+        self, mock_redirect, mockNewListForm
     ):
         mock_form = mockNewListForm.return_value
         mock_form.is_valid.return_value = True
